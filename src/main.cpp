@@ -16,9 +16,11 @@ int main(int argc, char* args[]) {  // Note that unless you use "#undef main", (
 	// The surface contained by the window:
 	SDL_Surface* screenSurface = NULL;
 
+	bool running = true;
+
 	// Initializing SDL:
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		//std::cout << "Couldn't initialize SDL! SDL_Error: " << SDL_GetError() << '\n';
+		std::cout << "Couldn't initialize SDL! SDL_Error: " << SDL_GetError() << '\n';
 	}
 	else {
 		// Create the window:
@@ -27,14 +29,13 @@ int main(int argc, char* args[]) {  // Note that unless you use "#undef main", (
 		// Get window surface
 		screenSurface = SDL_GetWindowSurface(window);
 
-		// Fill the surface white
-		SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+		while (running) {
+			// Fill the surface white
+			SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
 
-		// Update the surface
-		SDL_UpdateWindowSurface(window);
-
-		// Wait two seconds
-		SDL_Delay(2000);
+			// Update the surface
+			SDL_UpdateWindowSurface(window);
+		}
 	}
 
 	// Clean up SDL window, and quit the SDL subsystems before exiting:
