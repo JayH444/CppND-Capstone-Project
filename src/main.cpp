@@ -1,6 +1,7 @@
 //Using SDL and the standard C++ IO stream:
 #include <SDL.h>
 #include <iostream>
+#include <memory>
 
 // Game files:
 #include "inputManager.h"
@@ -16,11 +17,11 @@ int main(int argc, char* args[]) {  // Note that unless you use "#undef main", t
 	const int SCREEN_WIDTH = 640;
 	const int SCREEN_HEIGHT = 480;
 
-	Renderer renderer(SCREEN_WIDTH, SCREEN_HEIGHT);
-	InputManager inputManager;
-	GameManager* game = new GameManager();
+	auto renderer = std::unique_ptr<Renderer>(new Renderer(SCREEN_WIDTH, SCREEN_HEIGHT));
+	auto inputManager = std::unique_ptr<InputManager>(new InputManager());
+	auto game = std::unique_ptr<GameManager>(new GameManager());
 
-	game->Run(inputManager, renderer);
+	game->Run(inputManager.get(), renderer.get());
 
 	return 0;
 }

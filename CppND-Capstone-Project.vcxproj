@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\gameManager.cpp" />
+    <ClCompile Include="src\gameObject.cpp" />
     <ClCompile Include="src\inputManager.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\player.cpp" />
@@ -135,6 +136,7 @@
     <ClCompile Include="src\util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\gameObject.h" />
     <ClInclude Include="src\inputManager.h" />
     <ClInclude Include="src\gameManager.h" />
     <ClInclude Include="src\player.h" />

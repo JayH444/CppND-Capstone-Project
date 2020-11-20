@@ -5,15 +5,18 @@
 #include "util.h"
 
 GameManager::GameManager() {
-	_playerActor = new Player();
 }
 
 GameManager::~GameManager() {
-	delete _playerActor;
 }
 
-void GameManager::Run(InputManager const& inputManager, Renderer& renderer) {
+void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 	bool running = true;
+
+	// Create the player:
+	_playerActor = std::unique_ptr<Player>(new Player());
+	std::string filePath = "textures/ship.bmp";
+	renderer->LoadTexture(_playerActor.get(), filePath);
 
 	Uint32 frameTimeStart;  // Time at the start of a frame.
 	Uint32 frameTimeEnd;  // Time at the end of a frame.
@@ -30,15 +33,15 @@ void GameManager::Run(InputManager const& inputManager, Renderer& renderer) {
 
 		frameTimeStart = SDL_GetTicks();
 
-		inputManager.HandleInput(running);
-		renderer.Render(_playerActor);
+		inputManager->HandleInput(running);
+		renderer->Render(_playerActor.get());
 
 		frameTimeEnd = SDL_GetTicks();
 		frameDeltaTime = frameTimeEnd - frameTimeStart;
 		frameCount++;
 
 		if (frameTimeEnd - FPSTimestamp >= 1000) {
-			renderer.UpdateWindowTitle(frameCount);
+			renderer->UpdateWindowTitle(frameCount);
 			frameCount = 0;
 			FPSTimestamp = frameTimeEnd;
 		}

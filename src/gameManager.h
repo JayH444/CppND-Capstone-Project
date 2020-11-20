@@ -4,6 +4,7 @@
 #include "SDL.h"
 #include <random>
 #include <vector>
+#include <memory>
 
 #include "inputManager.h"
 #include "renderer.h"
@@ -13,7 +14,10 @@ class GameManager {
 public:
 	GameManager();
 	~GameManager();
-	void Run(InputManager const& inputManager, Renderer& renderer);
+	void Run(InputManager const* inputManager, Renderer* renderer);
+
+	// Getters / Setters:
+
 	int GetSurvivalTime() const;
 	int GetScore() const;
 private:
@@ -22,7 +26,7 @@ private:
 	std::mt19937 _randomEngine;
 	*/
 
-	Player* _playerActor;
+	std::unique_ptr<Player> _playerActor;
 
 	int _score{ 0 };
 };
