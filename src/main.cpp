@@ -18,9 +18,9 @@ int main(int argc, char* args[]) {  // Note that unless you use "#undef main", t
 
 	Renderer renderer(SCREEN_WIDTH, SCREEN_HEIGHT);
 	InputManager inputManager;
-	GameManager game = GameManager();
+	GameManager* game = new GameManager();
 
-	game.Run(inputManager, renderer);
+	game->Run(inputManager, renderer);
 
 	return 0;
 }

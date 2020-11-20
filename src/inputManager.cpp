@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "inputManager.h"
+#include "util.h"
 
 void InputManager::HandleInput(bool& running) const {
 	SDL_Event e;
