@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 
+#include "util.h"
 #include "inputManager.h"
 #include "renderer.h"
 #include "player.h"
@@ -14,6 +15,7 @@ class GameManager {
 public:
 	GameManager();
 	~GameManager();
+
 	void Run(InputManager const* inputManager, Renderer* renderer);
 
 	// Getters / Setters:

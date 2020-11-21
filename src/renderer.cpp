@@ -1,5 +1,4 @@
 #include "renderer.h"
-#include "util.h"
 
 Renderer::Renderer(const int screenWidth, const int screenHeight) : _ScreenWidth(screenWidth), _ScreenHeight(screenHeight) {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -52,7 +51,7 @@ void Renderer::Render(Player *p) {
 	SDL_SetRenderDrawColor(_Renderer, 0x1E, 0x1E, 0x1E, 0xFF);
 	SDL_RenderClear(_Renderer);
 
-	SDL_Rect renderQuad = { 0, 0, 64, 64 };
+	SDL_Rect renderQuad = { (int)p->GetX(), (int)p->GetY(), 64, 64 };
 	RenderTexture(p->GetTexture(), &renderQuad);
 	
 	SDL_RenderPresent(_Renderer);

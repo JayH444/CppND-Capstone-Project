@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "util.h"
 #include "player.h"
 
 class Renderer {
@@ -25,7 +26,6 @@ public:
 private:
 	SDL_Window* _Window;
 	SDL_Renderer* _Renderer;
-
 	const int _ScreenWidth;
 	const int _ScreenHeight;
 };

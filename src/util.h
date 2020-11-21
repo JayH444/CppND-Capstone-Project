@@ -9,6 +9,13 @@
 
 void ThrowError(std::string msg);
 
+float RadToDeg(float n);
+float DegToRad(float n);
+
+/*struct Vector2 {
+
+};*/
+
 /*
 // Some Python-esque utility functions:
 int RandInt(int min, int max);

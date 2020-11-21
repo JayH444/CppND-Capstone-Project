@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "gameManager.h"
-#include "util.h"
 
 GameManager::GameManager() {
 }
@@ -18,36 +17,56 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 	std::string filePath = "textures/ship.bmp";
 	renderer->LoadTexture(_playerActor.get(), filePath);
 
-	Uint32 frameTimeStart;  // Time at the start of a frame.
-	Uint32 frameTimeEnd;  // Time at the end of a frame.
-	Uint32 frameDeltaTime;  // Time since start of frame.
-	// ALL game actions where applicible should be scaled by deltaTime to ensure they're being executed at the same speed regardless of framerate.
+	// Credits to Brandon Foltz for their implementation of delta time, and Patrick le Duc of stackexchange/stackoverflow
+	// for their version of it using SDL_GetPerformanceCounter().
+	// November 2020,
+	// https://carlopsite.files.wordpress.com/2017/08/the_game_loop_and_frame_rate_management.pdf
+	// https://gamedev.stackexchange.com/questions/110825/how-to-calculate-delta-time-with-sdl
 
-	Uint32 frameCount = 0;
-	Uint32 FPSTimestamp = SDL_GetTicks();
+	Uint64 frameTimeStart = 0;  // Time at the start of a frame.
+	Uint64 frameTimeEnd = 0;  // Time at the end of a frame.
+	float frameDeltaTime = 0;  // Time since start of frame.
+	float deltaTimeSeconds = 0;
+	// ALL game actions where applicible should be scaled by deltaTimeSeconds to ensure they're being executed at the 
+	// same speed regardless of framerate.
 
-	float targetFramerate = 300.0;
-	float targetMsPerFrame = 1000.0 / targetFramerate;
+	int targetFramerate = 300;
+	int targetMsPerFrame = 1000 / targetFramerate;
 
 	while (running) {
 
-		frameTimeStart = SDL_GetTicks();
+		frameTimeStart = SDL_GetPerformanceCounter();
 
-		inputManager->HandleInput(running);
-		renderer->Render(_playerActor.get());
 
-		frameTimeEnd = SDL_GetTicks();
-		frameDeltaTime = frameTimeEnd - frameTimeStart;
-		frameCount++;
+		// Handle inputs:
+		inputManager->HandleInput(running, _playerActor.get());
 
-		if (frameTimeEnd - FPSTimestamp >= 1000) {
-			renderer->UpdateWindowTitle(frameCount);
-			frameCount = 0;
-			FPSTimestamp = frameTimeEnd;
+		// Update game state:
+		deltaTimeSeconds = (float)frameDeltaTime / 1000.0f;
+
+		if (_playerActor->HasMovementInput()) {
+
+			float angle = SDL_atan2f(_playerActor->GetInputX(), _playerActor->GetInputY());
+			float changeX = SDL_cosf(angle);
+			float changeY = SDL_sinf(angle);
+
+			_playerActor->SetX(_playerActor->GetX() + changeX * (float)_playerActor->_moveSpeed * deltaTimeSeconds);
+			_playerActor->SetY(_playerActor->GetY() + changeY * (float)_playerActor->_moveSpeed * deltaTimeSeconds);
 		}
 
-		if (frameDeltaTime < (Uint32)targetMsPerFrame) {
-			SDL_Delay((Uint32)targetMsPerFrame - frameDeltaTime);
+		// Render:
+		renderer->Render(_playerActor.get());
+
+
+		frameTimeEnd = SDL_GetPerformanceCounter();
+		frameDeltaTime = (double)(frameTimeEnd - frameTimeStart) * 1000.0 / SDL_GetPerformanceFrequency();
+
+		if (frameDeltaTime < 1 || frameDeltaTime > 1000) {
+			frameTimeStart = SDL_GetPerformanceCounter();
+			SDL_Delay(targetMsPerFrame);
+			frameTimeEnd = SDL_GetPerformanceCounter();
+			frameDeltaTime = (double)(frameTimeEnd - frameTimeStart) * 1000.0 / SDL_GetPerformanceFrequency();
+			renderer->UpdateWindowTitle(1000 / frameDeltaTime);
 		}
 	}
 }
