@@ -1,6 +1,3 @@
-#include "SDL.h"
-#include <iostream>
-
 #include "inputManager.h"
 
 void InputManager::HandleInput(bool& running, Player* player) const {

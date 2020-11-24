@@ -2,11 +2,22 @@
 
 // This is the generic game object type that all objects in the game world should inherit from.
 
-GameObject::GameObject() : _texture(nullptr), _velocityX(0), _velocityY(0), _x(0), _y(0) {
+// Parameter-less constructor:
+GameObject::GameObject() :
+	_texture(nullptr),
+	_textureDimensions(0, 0),
+	_collisionDimensions(0, 0),
+	_velocityX(0),
+	_velocityY(0),
+	_x(0),
+	_y(0) {
 }
 
 GameObject::~GameObject() {
-	_texture = nullptr;
+	if (_texture != nullptr) {
+		SDL_DestroyTexture(_texture);
+		_texture = nullptr;
+	}
 }
 
 float GameObject::GetMovementMagnitude() const {
@@ -14,4 +25,27 @@ float GameObject::GetMovementMagnitude() const {
 }
 float GameObject::GetMovementDirection() const {
 	return RadToDeg(SDL_atan2f(_velocityX, _velocityY));
+}
+
+void GameObject::SetMovementX(float x, float inertia) {
+	if (abs(_velocityX) < abs(x)) {
+		_velocityX += x * inertia;
+	}
+	else {
+		_velocityX = x;
+	}
+}
+
+void GameObject::SetMovementY(float y, float inertia) {
+	if (abs(_velocityY) < abs(y)) {
+		_velocityY += y * inertia;
+	}
+	else {
+		_velocityY = y;
+	}
+}
+
+void GameObject::DecayVelocity(float deltaTime) {
+	_velocityX *= 0;
+	_velocityY *= 0;
 }

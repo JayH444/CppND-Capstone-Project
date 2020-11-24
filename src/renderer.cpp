@@ -25,22 +25,45 @@ Renderer::~Renderer() {
 	SDL_Quit();
 }
 
-void Renderer::LoadTexture(GameObject* obj, std::string filePath) {
-	// Used for loading textures that will be used by the renderer.
+void Renderer::LoadTextureForGameObject(GameObject* obj, std::string filePath) {
+	if (_loadedTexturesHashMap.find(filePath) != _loadedTexturesHashMap.end()) {
+		obj->SetTexture(_loadedTexturesHashMap[filePath]);
+	}
+	else {
+		// Emplace the associated filepath + name with a loaded texture...
+		SDL_Texture* t = LoadTexture(filePath);
+		_loadedTexturesHashMap.emplace(filePath, t);
+		obj->SetTexture(_loadedTexturesHashMap[filePath]);
+		_loadedTexturesKeys.emplace_back(filePath);
+
+		// Emplace the associated dimensions of a filepath + name...
+		int w, h;
+		SDL_QueryTexture(t, nullptr, nullptr, &w, &h);
+		Vector2 textureDimensions = Vector2(w, h);
+		_loadedTexturesDimensionsHashMap.emplace(filePath, textureDimensions);
+	}
+	if (obj->GetTexture() == nullptr) {
+		ThrowError("Unable to create texture from " + filePath + "!");
+	}
+}
+
+SDL_Texture* Renderer::LoadTexture(std::string filePath) {
+	// Used for just loading textures to be used by the renderer at some point.
+	if (_loadedTexturesHashMap.find(filePath) != _loadedTexturesHashMap.end()) {
+		// If the texture has already been loaded...
+		return _loadedTexturesHashMap[filePath];
+	}
 	SDL_Surface* loadedSprite = SDL_LoadBMP(filePath.c_str());
+	SDL_Texture* t;
 	if (loadedSprite == nullptr) {
 		ThrowError("\"" + filePath + "\" failed to load!");
 	}
 	else {
 		SDL_SetColorKey(loadedSprite, SDL_TRUE, SDL_MapRGB(loadedSprite->format, 0xFF, 0x0, 0xFF));
-		obj->SetTexture(SDL_CreateTextureFromSurface(GetRenderer(), loadedSprite));
-		if (obj->GetTexture() == nullptr) {
-			ThrowError("Unable to create texture from player sprite!");
-		}
-
-		// Delete the old loaded surface:
+		t = SDL_CreateTextureFromSurface(GetRenderer(), loadedSprite);
 		SDL_FreeSurface(loadedSprite);
 	}
+	return std::move(t);
 }
 
 void Renderer::RenderTexture(SDL_Texture* t, SDL_Rect* r) {
@@ -48,10 +71,12 @@ void Renderer::RenderTexture(SDL_Texture* t, SDL_Rect* r) {
 }
 
 void Renderer::Render(Player *p) {
-	SDL_SetRenderDrawColor(_Renderer, 0x1E, 0x1E, 0x1E, 0xFF);
+	SDL_SetRenderDrawColor(_Renderer, 0x0F, 0x05, 0x0F, 0xFF);
 	SDL_RenderClear(_Renderer);
 
-	SDL_Rect renderQuad = { (int)p->GetX(), (int)p->GetY(), 64, 64 };
+	int pW = p->GetTextureDimensions()._x;
+	int pH = p->GetTextureDimensions()._y;
+	SDL_Rect renderQuad = { (int)p->GetX(), (int)p->GetY(), pW, pH };
 	RenderTexture(p->GetTexture(), &renderQuad);
 	
 	SDL_RenderPresent(_Renderer);
