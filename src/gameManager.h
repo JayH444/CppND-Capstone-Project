@@ -15,7 +15,8 @@ public:
 	~GameManager();
 
 	void Run(InputManager const* inputManager, Renderer* renderer);
-	void InitializeGameObject(GameObject* g, std::string fileP, Vector2 texD, Vector2 colD, int x=0, int y=0);
+	void InitializeGameObject(GameObject* g, std::string fileP, int x=0, int y=0, int textureScaleMult=2, IntVector2 colD=IntVector2(0, 0));
+	void LoadAllGameTextures();
 
 	int RandInt(int min, int max);
 	int RandFloat(float min, float max);
@@ -30,7 +31,8 @@ private:
 	std::mt19937 _randomEngine;
 
 	std::unique_ptr<Player> _playerActor;
-	std::vector<std::unique_ptr<GameObject>> _objects;
+	std::vector<std::shared_ptr<GameObject>> _objects;
+	//std::unordered_map<
 	std::vector<std::string> _asteroidTextures;
 	Renderer* _r;
 

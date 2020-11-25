@@ -10,12 +10,12 @@ GameObject::GameObject() :
 	_velocityX(0),
 	_velocityY(0),
 	_x(0),
-	_y(0) {
+	_y(0),
+	_alive(true) {
 }
 
 GameObject::~GameObject() {
 	if (_texture != nullptr) {
-		SDL_DestroyTexture(_texture);
 		_texture = nullptr;
 	}
 }
@@ -25,6 +25,18 @@ float GameObject::GetMovementMagnitude() const {
 }
 float GameObject::GetMovementDirection() const {
 	return RadToDeg(SDL_atan2f(_velocityX, _velocityY));
+}
+
+float GameObject::GetSideX(bool side) {
+	float c = GetCenterX();
+	float collisionSize = GetCollisionDimensions()._x / 2;
+	return (side) ? c + collisionSize : c - collisionSize;
+}
+
+float GameObject::GetSideY(bool side) {
+	float c = GetCenterY();
+	float collisionSize = GetCollisionDimensions()._y / 2;
+	return (side) ? c + collisionSize : c - collisionSize;
 }
 
 void GameObject::SetMovementX(float x, float inertia) {

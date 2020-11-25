@@ -12,10 +12,9 @@ public:
 	Renderer(const int screenWidth, const int screenHeight);
 	~Renderer();
 
-	void Render(Player *p);
+	void Render(Player *p, std::vector<std::shared_ptr<GameObject>> *objects);
 	void UpdateWindowTitle(int fps);
-	void LoadTextureForGameObject(GameObject* obj, std::string filePath);
-	SDL_Texture* LoadTexture(std::string filePath);
+	void LoadTexture(std::string filePath);
 	void RenderTexture(SDL_Texture* t, SDL_Rect* r);
 
 	// Getters / Setters:
@@ -23,7 +22,7 @@ public:
 	SDL_Renderer* GetRenderer() const { return _Renderer; }
 
 	std::unordered_map<std::string, SDL_Texture*> _loadedTexturesHashMap;
-	std::unordered_map<std::string, Vector2> _loadedTexturesDimensionsHashMap;
+	std::unordered_map<std::string, IntVector2> _loadedTexturesDimensionsHashMap;
 	std::vector<std::string> _loadedTexturesKeys;
 
 private:

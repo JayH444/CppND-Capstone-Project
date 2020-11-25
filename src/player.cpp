@@ -16,6 +16,31 @@ void Player::SetMovementDirection(const Uint8* keystate) {
 	if (keystate[SDL_SCANCODE_A] == keystate[SDL_SCANCODE_D]) _inputY = 0;
 }
 
+void Player::Update(double deltaTimeSeconds) {
+	if (abs(GetVelocityX()) > 0 || abs(GetVelocityY()) > 0) {
+		SetX(GetX() + GetVelocityX() * deltaTimeSeconds);
+		SetY(GetY() + GetVelocityY() * deltaTimeSeconds);
+	}
+
+	if (HasMovementInput()) {
+
+		// Calculate the X and Y component for all directions of movement, including diagonal:
+		float changeX = 0;
+		float changeY = 0;
+		if (HasMovementInput()) {
+			float angle = SDL_atan2f(GetInputX(), GetInputY());
+			changeX = SDL_cosf(angle);
+			changeY = SDL_sinf(angle);
+		}
+
+		SetMovementX(changeX * (float)_moveSpeed, 1);
+		SetMovementY(changeY * (float)_moveSpeed, 1);
+	}
+	else {
+		DecayVelocity(deltaTimeSeconds);
+	}
+}
+
 void Player::SetX(float x) {
 	int w = GetCollisionDimensions()._x;
 	int diff = GetTextureDimensions()._x - w;

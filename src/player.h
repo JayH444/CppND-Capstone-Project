@@ -10,7 +10,7 @@ public:
 	Player();
 	//~Player();
 
-	void Update();
+	void Update(double deltaTimeSeconds);
 	bool HasMovementInput() { return _inputX || _inputY; }
 
 	// Getters / Setters:

@@ -21,10 +21,10 @@ const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 namespace FS = std::filesystem;
 
-struct Vector2 {
-	Vector2() : _x(0), _y(0) {}
+struct IntVector2 {
+	IntVector2() : _x(0), _y(0) {}
 
-	Vector2(int x, int y) {
+	IntVector2(int x, int y) {
 		_x = x;
 		_y = y;
 	}
