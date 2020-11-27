@@ -8,7 +8,6 @@
 class Player : public GameObject {
 public:
 	Player();
-	//~Player();
 
 	void Update(double deltaTimeSeconds);
 	bool HasMovementInput() { return _inputX || _inputY; }

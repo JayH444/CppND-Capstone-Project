@@ -20,20 +20,15 @@ GameObject::~GameObject() {
 	}
 }
 
-float GameObject::GetMovementMagnitude() const {
-	return SDL_sqrtf(SDL_pow(_velocityX, 2.0) + SDL_pow(_velocityY, 2.0));
-}
-float GameObject::GetMovementDirection() const {
-	return RadToDeg(SDL_atan2f(_velocityX, _velocityY));
-}
-
 float GameObject::GetSideX(bool side) {
+	// for the parameter side: true = right, false = left.
 	float c = GetCenterX();
 	float collisionSize = GetCollisionDimensions()._x / 2;
 	return (side) ? c + collisionSize : c - collisionSize;
 }
 
 float GameObject::GetSideY(bool side) {
+	// for the parameter side: true = bottom, false = top.
 	float c = GetCenterY();
 	float collisionSize = GetCollisionDimensions()._y / 2;
 	return (side) ? c + collisionSize : c - collisionSize;
@@ -57,7 +52,8 @@ void GameObject::SetMovementY(float y, float inertia) {
 	}
 }
 
-void GameObject::DecayVelocity(float deltaTime) {
-	_velocityX *= 0;
-	_velocityY *= 0;
+bool GameObject::CheckBoundingBoxCollision(GameObject* target) {
+	bool withinBoundsX = target->GetCollisionRight() > GetCollisionLeft() && target->GetCollisionLeft() < GetCollisionRight();
+	bool withinBoundsY = target->GetCollisionBottom() > GetCollisionTop() && target->GetCollisionTop() < GetCollisionBottom();
+	return (withinBoundsX && withinBoundsY);
 }

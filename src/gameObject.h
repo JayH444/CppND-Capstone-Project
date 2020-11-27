@@ -9,10 +9,9 @@
 class GameObject {
 public:
 	GameObject();
-	//GameObject(SDL_Texture*, IntVector2 textureD, IntVector2 collisionD, int x, int y);
 	~GameObject();
 
-	virtual void DecayVelocity(float deltaTime);
+	virtual bool CheckBoundingBoxCollision(GameObject* target);
 
 	// Getters / Setters:
 
@@ -25,10 +24,12 @@ public:
 	virtual float GetCenterY() const { return _y + _textureDimensions._y / 2; }
 	virtual float GetSideX(bool side);
 	virtual float GetSideY(bool side);
+	virtual float GetCollisionLeft() { return GetSideX(false); }
+	virtual float GetCollisionRight() { return GetSideX(true); }
+	virtual float GetCollisionTop() { return GetSideY(false); }
+	virtual float GetCollisionBottom() { return GetSideY(true); }
 	virtual float GetVelocityX() const { return _velocityX; }  // In pixels/second
 	virtual float GetVelocityY() const { return _velocityY; }  // In pixels/second
-	virtual float GetMovementMagnitude() const;
-	virtual float GetMovementDirection() const;
 	virtual bool GetIsAlive() const { return _alive; }
 	//
 	virtual void SetTexture(SDL_Texture* t) { _texture = t; }

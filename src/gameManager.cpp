@@ -57,6 +57,19 @@ void GameManager::InitializeGameObject(GameObject* g, std::string fileP, int x, 
 	g->SetY(y);
 }
 
+void GameManager::InitializeAsteroid() {
+	auto _asteroid = std::shared_ptr<GameObject>(new GameObject());
+
+	// Pick a random asteroid texture and get its dimensions...
+	std::string chosenTexture = _asteroidTextures[RandInt(0, _asteroidTextures.size() - 1)];
+	//std::cout << "Random asteroid texture chosen is " << chosenTexture << "!\n";
+	IntVector2 td = _r->_loadedTexturesDimensionsHashMap[chosenTexture];
+	IntVector2 colD = IntVector2(td._x * 0.85, td._y * 0.85);
+
+	InitializeGameObject(_asteroid.get(), chosenTexture, RandInt(0, SCREEN_WIDTH - td._x), -(RandInt(td._y * 2, td._y * 5)), 2, colD);
+	_objects.emplace_back(std::move(_asteroid));
+}
+
 void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 	bool running = true;
 	_r = renderer;
@@ -66,20 +79,10 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 	_playerActor = std::unique_ptr<Player>(new Player());
 	int pX = SCREEN_WIDTH / 2 - 32;
 	int pY = SCREEN_HEIGHT / 2 - 32;
-	IntVector2 cD = IntVector2(44, 48);
+	IntVector2 cD = IntVector2(28, 36);
 	InitializeGameObject(_playerActor.get(), "textures/ship.bmp", pX, pY, 2, cD);
 
-	for (int i = 0; i < 10; i++) {
-		auto _asteroid = std::shared_ptr<GameObject>(new GameObject());
-
-		// Pick a random asteroid texture and get its dimensions...
-		std::string chosenTexture = _asteroidTextures[RandInt(0, _asteroidTextures.size() - 1)];
-		//std::cout << "Random asteroid texture chosen is " << chosenTexture << "!\n";
-		IntVector2 td = _r->_loadedTexturesDimensionsHashMap[chosenTexture];
-
-		InitializeGameObject(_asteroid.get(), chosenTexture, RandInt(0, SCREEN_WIDTH - td._x), -(RandInt(td._y * 4, td._y * 7)));
-		_objects.emplace_back(std::move(_asteroid));
-	}
+	int maxAsteroidNumber = 10;
 
 	/*
 	Credits to Brandon Foltz for their implementation of delta time, and Patrick le Duc of 
@@ -93,6 +96,7 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 	Uint64 frameTimeEnd = 0;  // Time at the end of a frame.
 	double frameDeltaTime = 0;  // Time since start of frame.
 	double deltaTimeSeconds = 0;
+	double totalTimeSeconds = 0;
 	// ALL game actions where applicible should be scaled by deltaTimeSeconds to ensure they're being executed at the 
 	// same speed regardless of framerate.
 
@@ -103,53 +107,53 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 
 		frameTimeStart = SDL_GetPerformanceCounter();
 
-
 		// Handle inputs:
 		inputManager->HandleInput(running, _playerActor.get());
 
 		// Update game state:
 		deltaTimeSeconds = frameDeltaTime / 1000.0;
+		totalTimeSeconds = (double)SDL_GetTicks() / 1000.0;
 
-		_playerActor->Update(deltaTimeSeconds);
+		if (_playerActor->GetIsAlive()) {
+			_playerActor->Update(deltaTimeSeconds);
 
-
-		for (int n = 0; n < _objects.size(); n++) {
-			auto i = _objects[n];
-			if (i->GetVelocityX() != 0 || i->GetVelocityY() != 0) {
-				i->SetX(i->GetX() + i->GetVelocityX() * deltaTimeSeconds);
-				i->SetY(i->GetY() + i->GetVelocityY() * deltaTimeSeconds);
+			// Dont run this until a brief startup grace period ends.
+			if (totalTimeSeconds > 1) {
+				for (int n = 0; n < _objects.size(); n++) {
+					auto i = _objects[n];
+					if (i->GetVelocityX() != 0 || i->GetVelocityY() != 0) {
+						i->SetX(i->GetX() + i->GetVelocityX() * deltaTimeSeconds);
+						i->SetY(i->GetY() + i->GetVelocityY() * deltaTimeSeconds);
+					}
+					if (i->GetVelocityY() == 0) {
+						i->SetMovementY(RandInt(75, 300), 1);
+					}
+					if (i->CheckBoundingBoxCollision(_playerActor.get())) {
+						std::cout << "Player is colliding with object " << n << "!\n";
+						_playerActor->SetIsAlive(false);
+					}
+					if (i->GetY() > SCREEN_HEIGHT) {
+						i->SetIsAlive(false);
+					}
+				}
+				for (int n = 0; n < _objects.size(); n++) {
+					auto i = _objects[n];
+					if (i->GetIsAlive() == false) {
+						_objects.erase(_objects.begin() + n);
+						n--;
+					}
+				}
+				if (_objects.size() < maxAsteroidNumber) {
+					InitializeAsteroid();
+				}
+				SetScore(totalTimeSeconds - 1);
 			}
-			if (i->GetVelocityY() == 0) {
-				i->SetMovementY(RandInt(75, 300), 1);
-			}
-			if (i->GetY() > SCREEN_HEIGHT) {
-				i->SetIsAlive(false);
-			}
-		}
-		for (int n = 0; n < _objects.size(); n++) {
-			auto i = _objects[n];
-			if (i->GetIsAlive() == false) {
-				//std::cout << "Deleting object at Y position " << (*(_objects.begin() + n))->GetY() << "\n";
-				_objects.erase(_objects.begin() + n);
-				n--;
-			}
-		}
-		if (_objects.size() < 10) {
-			auto _asteroid = std::shared_ptr<GameObject>(new GameObject());
-
-			// Pick a random asteroid texture and get its dimensions...
-			std::string chosenTexture = _asteroidTextures[RandInt(0, _asteroidTextures.size() - 1)];
-			//std::cout << "Random asteroid texture chosen is " << chosenTexture << "!\n";
-			IntVector2 td = _r->_loadedTexturesDimensionsHashMap[chosenTexture];
-
-			InitializeGameObject(_asteroid.get(), chosenTexture, RandInt(0, SCREEN_WIDTH - td._x), -(RandInt(td._y * 2, td._y * 5)));
-			_objects.emplace_back(std::move(_asteroid));
 		}
 
 		// Render:
 		renderer->Render(_playerActor.get(), &_objects);
 
-
+		// Calculate delta time:
 		frameTimeEnd = SDL_GetPerformanceCounter();
 		frameDeltaTime = (double)(frameTimeEnd - frameTimeStart) * 1000.0 / (double)SDL_GetPerformanceFrequency();
 
@@ -158,7 +162,12 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 			SDL_Delay(targetMsPerFrame);
 			frameTimeEnd = SDL_GetPerformanceCounter();
 			frameDeltaTime = (double)(frameTimeEnd - frameTimeStart) * 1000.0 / (double)SDL_GetPerformanceFrequency();
-			renderer->UpdateWindowTitle(1000 / (int)frameDeltaTime);
+		}
+		if (frameDeltaTime > 1) {
+			renderer->UpdateWindowTitle(1000 / (int)frameDeltaTime, GetScore());
+		}
+		else {
+			renderer->UpdateWindowTitle("Tyrianoid - FPS: 1000+", GetScore());
 		}
 	}
 }

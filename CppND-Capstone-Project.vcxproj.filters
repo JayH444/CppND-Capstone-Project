@@ -59,8 +59,5 @@
     <ClInclude Include="src\gameObject.h">
       <Filter>Source Files\headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\asteroid.h">
-      <Filter>Source Files\headers</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

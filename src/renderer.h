@@ -13,9 +13,11 @@ public:
 	~Renderer();
 
 	void Render(Player *p, std::vector<std::shared_ptr<GameObject>> *objects);
-	void UpdateWindowTitle(int fps);
+	void UpdateWindowTitle(int fps, int score);
+	void UpdateWindowTitle(std::string msg, int score);
 	void LoadTexture(std::string filePath);
 	void RenderTexture(SDL_Texture* t, SDL_Rect* r);
+	void RenderCollisionBox(SDL_Rect* r);
 
 	// Getters / Setters:
 
@@ -28,8 +30,6 @@ public:
 private:
 	SDL_Window* _Window;
 	SDL_Renderer* _Renderer;
-	const int _ScreenWidth;
-	const int _ScreenHeight;
 };
 
 #endif

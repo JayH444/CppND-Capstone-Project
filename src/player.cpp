@@ -1,7 +1,7 @@
 #include "player.h"
 
 
-Player::Player() : _moveSpeed(500), _inputX(0), _inputY(0) {
+Player::Player() : _moveSpeed(400), _inputX(0), _inputY(0) {
 }
 
 void Player::SetMovementDirection(const Uint8* keystate) {
@@ -17,31 +17,22 @@ void Player::SetMovementDirection(const Uint8* keystate) {
 }
 
 void Player::Update(double deltaTimeSeconds) {
-	if (abs(GetVelocityX()) > 0 || abs(GetVelocityY()) > 0) {
-		SetX(GetX() + GetVelocityX() * deltaTimeSeconds);
-		SetY(GetY() + GetVelocityY() * deltaTimeSeconds);
-	}
-
 	if (HasMovementInput()) {
-
 		// Calculate the X and Y component for all directions of movement, including diagonal:
 		float changeX = 0;
 		float changeY = 0;
-		if (HasMovementInput()) {
-			float angle = SDL_atan2f(GetInputX(), GetInputY());
-			changeX = SDL_cosf(angle);
-			changeY = SDL_sinf(angle);
-		}
+		float angle = (float)SDL_atan2(GetInputX(), GetInputY());
+		changeX = SDL_cosf(angle);
+		changeY = SDL_sinf(angle);
+		float moveX = changeX * (float)_moveSpeed;
+		float moveY = changeY * (float)_moveSpeed;
 
-		SetMovementX(changeX * (float)_moveSpeed, 1);
-		SetMovementY(changeY * (float)_moveSpeed, 1);
-	}
-	else {
-		DecayVelocity(deltaTimeSeconds);
+		SetX(GetX() + moveX * deltaTimeSeconds);
+		SetY(GetY() + moveY * deltaTimeSeconds);
 	}
 }
 
-void Player::SetX(float x) {
+void Player::SetX(float x) {  // Set the player's X coord and keep it on-screen.
 	int w = GetCollisionDimensions()._x;
 	int diff = GetTextureDimensions()._x - w;
 	if (x + w + diff/2 > SCREEN_WIDTH) {
@@ -55,7 +46,7 @@ void Player::SetX(float x) {
 	}
 }
 
-void Player::SetY(float y) {
+void Player::SetY(float y) {  // Set the player's Y coord and keep it on-screen.
 	int h = GetCollisionDimensions()._y;
 	int diff = GetTextureDimensions()._y - h;
 	if (y + h + diff/2 > SCREEN_HEIGHT) {
