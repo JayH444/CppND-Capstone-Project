@@ -83,6 +83,7 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 	InitializeGameObject(_playerActor.get(), "textures/ship.bmp", pX, pY, 2, cD);
 
 	int maxAsteroidNumber = 10;
+	double asteroidIncrementTimer = 10.0;
 
 	/*
 	Credits to Brandon Foltz for their implementation of delta time, and Patrick le Duc of 
@@ -118,7 +119,9 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 			_playerActor->Update(deltaTimeSeconds);
 
 			// Dont run this until a brief startup grace period ends.
-			if (totalTimeSeconds > 1) {
+			if (totalTimeSeconds > 2) {
+				asteroidIncrementTimer -= deltaTimeSeconds;
+
 				for (int n = 0; n < _objects.size(); n++) {
 					auto i = _objects[n];
 					if (i->GetVelocityX() != 0 || i->GetVelocityY() != 0) {
@@ -146,7 +149,12 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 				if (_objects.size() < maxAsteroidNumber) {
 					InitializeAsteroid();
 				}
-				SetScore(totalTimeSeconds - 1);
+				SetScore(totalTimeSeconds - 2);
+				if (asteroidIncrementTimer <= 0 && maxAsteroidNumber < 500) {
+					maxAsteroidNumber++;
+					std::cout << "Incremented asteroid number to " << maxAsteroidNumber << "\n";
+					asteroidIncrementTimer = 10.0;
+				}
 			}
 		}
 

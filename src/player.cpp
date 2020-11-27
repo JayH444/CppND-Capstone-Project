@@ -1,7 +1,7 @@
 #include "player.h"
 
 
-Player::Player() : _moveSpeed(400), _inputX(0), _inputY(0) {
+Player::Player() : _moveSpeed(350), _inputX(0), _inputY(0) {
 }
 
 void Player::SetMovementDirection(const Uint8* keystate) {
