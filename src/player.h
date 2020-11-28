@@ -3,9 +3,9 @@
 
 #include "SDL.h"
 #include "util.h"
-#include "gameObject.h"
+#include "gameEntity.h"
 
-class Player : public GameObject {
+class Player : public GameEntity {
 public:
 	Player();
 

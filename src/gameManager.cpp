@@ -44,7 +44,7 @@ int GameManager::RandInt(int min, int max) {
 	return random_int(_randomEngine);
 }
 
-void GameManager::InitializeGameObject(GameObject* g, std::string fileP, int x, int y, int textureScaleMult, IntVector2 colD) {
+void GameManager::InitializeGameEntity(GameEntity* g, std::string fileP, int x, int y, int textureScaleMult, IntVector2 colD) {
 	g->SetTexture(_r->_loadedTexturesHashMap[fileP]);
 	IntVector2 texD = _r->_loadedTexturesDimensionsHashMap[fileP];
 	texD._x *= 2;
@@ -60,7 +60,7 @@ void GameManager::InitializeGameObject(GameObject* g, std::string fileP, int x, 
 }
 
 void GameManager::InitializeAsteroid() {
-	auto _asteroid = std::shared_ptr<GameObject>(new GameObject());
+	auto _asteroid = std::shared_ptr<GameEntity>(new GameEntity());
 
 	// Pick a random asteroid texture and get its dimensions...
 	std::string chosenTexture = _asteroidTextures[RandInt(0, _asteroidTextures.size() - 1)];
@@ -68,7 +68,7 @@ void GameManager::InitializeAsteroid() {
 	IntVector2 td = _r->_loadedTexturesDimensionsHashMap[chosenTexture];
 	IntVector2 colD = IntVector2(td._x * 0.85, td._y * 0.85);
 
-	InitializeGameObject(_asteroid.get(), chosenTexture, RandInt(0, SCREEN_WIDTH - td._x), -(RandInt(td._y * 2, td._y * 5)), 2, colD);
+	InitializeGameEntity(_asteroid.get(), chosenTexture, RandInt(0, SCREEN_WIDTH - td._x), -(RandInt(td._y * 2, td._y * 5)), 2, colD);
 	_objects.emplace_back(std::move(_asteroid));
 }
 
@@ -82,7 +82,7 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 	int pX = SCREEN_WIDTH / 2 - 32;
 	int pY = SCREEN_HEIGHT / 2 - 32;
 	IntVector2 cD = IntVector2(28, 36);
-	InitializeGameObject(_playerActor.get(), "textures/ship.bmp", pX, pY, 2, cD);
+	InitializeGameEntity(_playerActor.get(), "textures/ship.bmp", pX, pY, 2, cD);
 
 	int maxAsteroidNumber = 10;
 	double asteroidIncrementTimer = 10.0;

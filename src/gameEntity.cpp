@@ -1,9 +1,9 @@
-#include "gameObject.h"
+#include "gameEntity.h"
 
 // This is the generic game object type that all objects in the game world should inherit from.
 
 // Parameter-less constructor:
-GameObject::GameObject() :
+GameEntity::GameEntity() :
 	_texture(nullptr),
 	_textureDimensions(0, 0),
 	_collisionDimensions(0, 0),
@@ -14,27 +14,27 @@ GameObject::GameObject() :
 	_alive(true) {
 }
 
-GameObject::~GameObject() {
+GameEntity::~GameEntity() {
 	if (_texture != nullptr) {
 		_texture = nullptr;
 	}
 }
 
-float GameObject::GetSideX(bool side) {
+float GameEntity::GetSideX(bool side) {
 	// for the parameter side: true = right, false = left.
 	float c = GetCenterX();
 	float collisionSize = GetCollisionDimensions()._x / 2;
 	return (side) ? c + collisionSize : c - collisionSize;
 }
 
-float GameObject::GetSideY(bool side) {
+float GameEntity::GetSideY(bool side) {
 	// for the parameter side: true = bottom, false = top.
 	float c = GetCenterY();
 	float collisionSize = GetCollisionDimensions()._y / 2;
 	return (side) ? c + collisionSize : c - collisionSize;
 }
 
-void GameObject::SetMovementX(float x, float inertia) {
+void GameEntity::SetMovementX(float x, float inertia) {
 	if (abs(_velocityX) < abs(x)) {
 		_velocityX += x * inertia;
 	}
@@ -43,7 +43,7 @@ void GameObject::SetMovementX(float x, float inertia) {
 	}
 }
 
-void GameObject::SetMovementY(float y, float inertia) {
+void GameEntity::SetMovementY(float y, float inertia) {
 	if (abs(_velocityY) < abs(y)) {
 		_velocityY += y * inertia;
 	}
@@ -52,7 +52,7 @@ void GameObject::SetMovementY(float y, float inertia) {
 	}
 }
 
-bool GameObject::CheckBoundingBoxCollision(GameObject* target) {
+bool GameEntity::CheckBoundingBoxCollision(GameEntity* target) {
 	bool withinBoundsX = target->GetCollisionRight() > GetCollisionLeft() && target->GetCollisionLeft() < GetCollisionRight();
 	bool withinBoundsY = target->GetCollisionBottom() > GetCollisionTop() && target->GetCollisionTop() < GetCollisionBottom();
 	return (withinBoundsX && withinBoundsY);

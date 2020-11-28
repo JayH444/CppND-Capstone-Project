@@ -5,14 +5,14 @@
 #include "util.h"
 
 #include "player.h"
-#include "gameObject.h"
+#include "gameEntity.h"
 
 class Renderer {
 public:
 	Renderer(const int screenWidth, const int screenHeight);
 	~Renderer();
 
-	void Render(Player *p, std::vector<std::shared_ptr<GameObject>> *objects);
+	void Render(Player *p, std::vector<std::shared_ptr<GameEntity>> *objects);
 	void UpdateWindowTitle(int fps, int score);
 	void UpdateWindowTitle(std::string msg, int score);
 	void LoadTexture(std::string filePath);

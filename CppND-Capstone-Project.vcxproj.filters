@@ -36,7 +36,7 @@
     <ClCompile Include="src\util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gameObject.cpp">
+    <ClCompile Include="src\gameEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,7 +56,7 @@
     <ClInclude Include="src\util.h">
       <Filter>Source Files\headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\gameObject.h">
+    <ClInclude Include="src\gameEntity.h">
       <Filter>Source Files\headers</Filter>
     </ClInclude>
   </ItemGroup>

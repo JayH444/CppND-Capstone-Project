@@ -59,7 +59,7 @@ void Renderer::RenderCollisionBox(SDL_Rect* r) {
 	SDL_RenderDrawRect(_Renderer, r);
 }
 
-void Renderer::Render(Player *p, std::vector<std::shared_ptr<GameObject>>* objects) {
+void Renderer::Render(Player *p, std::vector<std::shared_ptr<GameEntity>>* objects) {
 	SDL_SetRenderDrawColor(_Renderer, 0x0F, 0x05, 0x0F, 0xFF);
 	SDL_RenderClear(_Renderer);
 

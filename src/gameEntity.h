@@ -1,17 +1,17 @@
-#ifndef GAMEOBJECT_H
-#define GAMEOBJECT_H
+#ifndef GameEntity_H
+#define GameEntity_H
 
 #include "SDL.h"
 #include "util.h"
 
-// Generic game object.
+// Generic game entity.
 
-class GameObject {
+class GameEntity {
 public:
-	GameObject();
-	~GameObject();
+	GameEntity();
+	~GameEntity();
 
-	virtual bool CheckBoundingBoxCollision(GameObject* target);
+	virtual bool CheckBoundingBoxCollision(GameEntity* target);
 
 	// Getters / Setters:
 
