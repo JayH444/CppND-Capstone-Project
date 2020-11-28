@@ -84,7 +84,8 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 	IntVector2 cD = IntVector2(28, 36);
 	InitializeGameEntity(_playerActor.get(), "textures/ship.bmp", pX, pY, 2, cD);
 
-	int maxAsteroidNumber = 10;
+	int currentAsteroidNumber = 10;
+	int maxAsteroidNumber = 100;
 	double asteroidIncrementTimer = 10.0;
 
 	/*
@@ -149,13 +150,13 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 						n--;
 					}
 				}
-				if (_objects.size() < maxAsteroidNumber) {
+				if (_objects.size() < currentAsteroidNumber) {
 					InitializeAsteroid();
 				}
 				SetScore(totalTimeSeconds - 2);
-				if (asteroidIncrementTimer <= 0 && maxAsteroidNumber < 500) {
-					maxAsteroidNumber++;
-					std::cout << "Incremented asteroid number to " << maxAsteroidNumber << "\n";
+				if (asteroidIncrementTimer <= 0 && currentAsteroidNumber < maxAsteroidNumber) {
+					currentAsteroidNumber++;
+					std::cout << "Incremented asteroid number to " << currentAsteroidNumber << "\n";
 					asteroidIncrementTimer = 10.0;
 				}
 			}

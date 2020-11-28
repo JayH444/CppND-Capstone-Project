@@ -87,7 +87,8 @@ Additional credits to the following people for their explanations and code examp
 1. Clone this repo.
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./Tyrianoid`.
+4. Copy the textures folder in the parent directory over to the build folder: `cp -avr ../textures ./` (or simply manually copy & paste in a file manager)
+5. Run it: `./Tyrianoid`.
 
 ### Option 2 (using Visual Studio):
 
