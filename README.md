@@ -1,7 +1,5 @@
 # Udacity CPPND Capstone project - "Tyrianoid"
 
-**WIP**
-
 Created from the [Snake game starter repo](https://github.com/udacity/CppND-Capstone-Snake-Game) for the [Udacity C++ Nnanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
 This is the repository of my capstone project for it.
 
@@ -54,8 +52,6 @@ The player scores by surviving for as long as possible. Higher scores mean a lon
 #### 13. The project uses smart pointers instead of raw pointers.
   * Wherever possible. SDL types were omitted from using them due to the aforementioned compatibility issues, but any standard library derived classes make extensive usage of them. These can be seen in `main.cpp` at lines 17 thru 19, and in `gameManager.cpp` at line 81.
 
-WIP
-
 ## Credits
 
 The partial namesake and sprites used for the game come from the freeware game [Tyrian](https://www.gog.com/game/tyrian_2000). 
@@ -86,7 +82,7 @@ Additional credits to the following people for their explanations and code examp
   * Windows: recommend using [MinGW](http://www.mingw.org/)
 
 ## Basic Build Instructions
-### Option 1 (typical when using CMake and GCC):
+### Option 1 (using CMake and GCC):
 
 1. Clone this repo.
 2. Make a build directory in the top level directory: `mkdir build && cd build`
