@@ -25,7 +25,7 @@ The player scores by surviving for as long as possible. Higher scores mean a lon
 - `gameObject.cpp/.h` - The generic class that all entities in the game inherit from. Contains an assortment of functions and member variables used by them.
 - `player.cpp/.h` - The player class. Contains all the functions and member variables unique to and required by the player entity.
 
-## Rubric Points Addressed:
+## Rubric Points Addressed
 
 #### 1. The project demonstrates an understanding of C++ functions and control structures.
   * Can be found throughout every file. e.g. `gameManager.cpp`.
@@ -33,6 +33,19 @@ The player scores by surviving for as long as possible. Higher scores mean a lon
   * Examples in `gameManager.cpp`, with the function LoadAllGameTextures() at line 22, and in `renderer.cpp`, with the function LoadTexture() at line 28.
 #### 3. The project accepts user input and processes the input.
   * Used for player inputs for the game. Seen in `inputmanager.cpp`, with the function HandleInput() at line 3. This input is processed in `player.cpp` by the Player class functions SetMovementDirection() at line 7, and Update() at line 19.
+#### 4. The project uses Object Oriented Programming techniques.
+  * Used extensively. Examples can be found with the Player class in `player.cpp`, GameManager class in `gameManager.cpp`, Renderer class in `renderer.cpp`, etc.
+#### 5. Classes use appropriate access specifiers for class members.
+  * Also used extensively. Examples can be found with the Player class in `player.cpp`, GameManager class in `gameManager.cpp`, GameEntity class in `gameEntity.cpp`, etc.
+#### 6. Class constructors utilize member initialization lists.
+  * Used for the Player class in `player.cpp` at line 4, GameEntity class in `gameEntity.cpp` at line 7, and GameManager class in `gameManager.cpp` at line 3.
+#### 7. Classes encapsulate behavior.
+  * Used extensively. Examples can be found with the Player class in `player.cpp`, GameManager class in `gameManager.cpp`, Renderer class in `renderer.cpp`, etc.
+#### 8. Classes follow an appropriate inheritance hierarchy.
+  * Can be seen with the Player class in `player.cpp` and the GameEntity class in `gameEntity.cpp`. GameEntity is composed entirely of overideable virtual functions, and the Player class inherits from it and overrides some of its functions.
+#### 9. Overloaded functions allow the same function to operate on different parameters.
+  * the Renderer class's UpdateWindowTitle() function makes use of this - lines 16 and 17 in `renderer.h` show it. UpdateWindowTitle() has an overload allowing it to take either two integers or one string and an integer as its arguments.
+#### 10. Derived class functions override virtual base class functions.
 
 WIP
 
