@@ -87,12 +87,15 @@ Additional credits to the following people for their explanations and code examp
 1. Clone this repo.
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./SnakeGame`.
+4. Run it: `./Tyrianoid`.
 
 ### Option 2 (using Visual Studio):
 
 1. Clone this repo.
-2. Open the .sln file with Visual Studio 2019 (Not tested with earlier versions.)
-3. Verify that the required environment variables have been set. (Further instructions [here](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/windows/msvc2019/index.php).)
-3. Compile it.
-4. Run it: `./x64/Release/CppND-Capstone-Project.exe` or `./x64/Debug/CppND-Capstone-Project.exe` (depending on the compile configuration chosen).
+2. Open the .sln file with Visual Studio 2019 (Not tested with earlier versions).
+3. In `util.h`, replace `#include <experimental/filesystem>` on line 8 with `#include <filesystem>`
+4. In `util.h`, replace `namespace FS = std::experimental::filesystem;` with `namespace FS = std::filesystem;`
+5. Verify that the required environment variables have been set. (Further instructions [here](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/windows/msvc2019/index.php)).
+6. Compile it.
+7. Run it: `./x64/Release/CppND-Capstone-Project.exe` or `./x64/Debug/CppND-Capstone-Project.exe` (depending on the compile configuration chosen).
+
