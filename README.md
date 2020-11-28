@@ -17,15 +17,22 @@ The player scores by surviving for as long as possible. Higher scores mean a lon
 
 ## Project Structure
 
-- main.cpp - The entry point of the program. Initializes the renderer, input manager, and game manager objects, and runs the game.
-- util.cpp/.h - A utility file included by every other header file in the project. It contains all the standard library headers used in the project, as well as any general purpose functions, global variables, and structs.
-- gameManager.cpp/.h - Initializes the game state and runs the game loop + its respective steps (handling inputs, updating game state, rendering).
-- inputManager.cpp/.h - Handles inputs both for the player and for closing the application.
-- renderer.cpp/.h - Contains and handles everything related to rendering the visual aspects of the game; Textures, sprite positions, and window title information.
-- gameObject.cpp/.h - The generic class that all entities in the game inherit from. Contains an assortment of functions and member variables used by them.
-- player.cpp/.h - The player class. Contains all the functions and member variables unique to and required by the player entity.
+- `main.cpp` - The entry point of the program. Initializes the renderer, input manager, and game manager objects, and runs the game.
+- `util.cpp/.h` - A utility file included by every other header file in the project. It contains all the standard library headers used in the project, as well as any general purpose functions, global variables, and structs.
+- `gameManager.cpp/.h` - Initializes the game state and runs the game loop + its respective steps (handling inputs, updating game state, rendering).
+- `inputManager.cpp/.h` - Handles inputs both for the player and for closing the application.
+- `renderer.cpp/.h` - Contains and handles everything related to rendering the visual aspects of the game; Textures, sprite positions, and window title information.
+- `gameObject.cpp/.h` - The generic class that all entities in the game inherit from. Contains an assortment of functions and member variables used by them.
+- `player.cpp/.h` - The player class. Contains all the functions and member variables unique to and required by the player entity.
 
 ## Rubric Points Addressed:
+
+#### 1. The project demonstrates an understanding of C++ functions and control structures.
+  * Can be found throughout every file. e.g. `gameManager.cpp`.
+#### 2. The project reads data from a file and process the data, or the program writes data to a file.
+  * Examples in `gameManager.cpp`, with the function LoadAllGameTextures() at line 22, and in `renderer.cpp`, with the function LoadTexture() at line 28.
+#### 3. The project accepts user input and processes the input.
+  * Used for player inputs for the game. Seen in `inputmanager.cpp`, with the function HandleInput() at line 3. This input is processed in `player.cpp` by the Player class functions SetMovementDirection() at line 7, and Update() at line 19.
 
 WIP
 
@@ -70,5 +77,6 @@ Additional credits to the following people for their explanations and code examp
 
 1. Clone this repo.
 2. Open the .sln file with Visual Studio 2019 (Not tested with earlier versions.)
+3. Verify that the required environment variables have been set. (Further instructions [here](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/windows/msvc2019/index.php).)
 3. Compile it.
 4. Run it: `./x64/Release/CppND-Capstone-Project.exe` or `./x64/Debug/CppND-Capstone-Project.exe` (depending on the compile configuration chosen).
