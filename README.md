@@ -22,7 +22,7 @@ The player scores by surviving for as long as possible. Higher scores mean a lon
 - `gameManager.cpp/.h` - Initializes the game state and runs the game loop + its respective steps (handling inputs, updating game state, rendering).
 - `inputManager.cpp/.h` - Handles inputs both for the player and for closing the application.
 - `renderer.cpp/.h` - Contains and handles everything related to rendering the visual aspects of the game; Textures, sprite positions, and window title information.
-- `gameObject.cpp/.h` - The generic class that all entities in the game inherit from. Contains an assortment of functions and member variables used by them.
+- `gameEntity.cpp/.h` - The generic class that all entities in the game inherit from. Contains an assortment of functions and member variables used by them.
 - `player.cpp/.h` - The player class. Contains all the functions and member variables unique to and required by the player entity.
 
 ## Rubric Points Addressed
@@ -44,8 +44,15 @@ The player scores by surviving for as long as possible. Higher scores mean a lon
 #### 8. Classes follow an appropriate inheritance hierarchy.
   * Can be seen with the Player class in `player.cpp` and the GameEntity class in `gameEntity.cpp`. GameEntity is composed entirely of overideable virtual functions, and the Player class inherits from it and overrides some of its functions.
 #### 9. Overloaded functions allow the same function to operate on different parameters.
-  * the Renderer class's UpdateWindowTitle() function makes use of this - lines 16 and 17 in `renderer.h` show it. UpdateWindowTitle() has an overload allowing it to take either two integers or one string and an integer as its arguments.
+  * The Renderer class's UpdateWindowTitle() function makes use of this - lines 16 and 17 in `renderer.h` show it. UpdateWindowTitle() has an overload allowing it to take either two integers or one string and an integer as its arguments.
 #### 10. Derived class functions override virtual base class functions.
+  * The Player class does this in `player.h`, lines 20 and 21.
+#### 11. The project makes use of references in function declarations.
+  * Used extensively. E.g. GameEntity in `gameEntity.h` at lines 14 and 35, and the _texture member variable at line 45; GameManager in `gameManager.h` at line 17 and for the member variable _r at line 37.
+#### 12. The project uses destructors appropriately.
+  * This needed to be done for any instances of SDL_Texture, due to its lack of built-in compatibility with standard library smart pointers. GameManager destructs them in its destructor in `gameManager.cpp`, line 6.
+#### 13. The project uses smart pointers instead of raw pointers.
+  * Wherever possible. SDL types were omitted from using them due to the aforementioned compatibility issues, but any standard library derived classes make extensive usage of them. These can be seen in `main.cpp` at lines 17 thru 19, and in `gameManager.cpp` at line 81.
 
 WIP
 
