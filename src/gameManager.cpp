@@ -4,6 +4,8 @@ GameManager::GameManager() : _r(nullptr), _randomEngine(_randomDevice()) {
 }
 
 GameManager::~GameManager() {
+	// SDL_Texture can't be used with standard library smart pointers in an easy clean way, so they'll have to be 
+	// dealt with as raw pointers.
 	while (_r->_loadedTexturesHashMap.empty() == false) {
 		std::string key = _r->_loadedTexturesKeys.back();
 		SDL_Texture* i = _r->_loadedTexturesHashMap[key];
@@ -19,7 +21,7 @@ GameManager::~GameManager() {
 
 void GameManager::LoadAllGameTextures() {
 	/*
-	Credits to Peter Parker of stackoverflow for their implementation of using std::filesystem to find
+	Credits to "Peter Parker" of stackoverflow for their implementation of using std::filesystem to find
 	all the files in a directory.
 	November 2020,
 	https://stackoverflow.com/questions/612097/how-can-i-get-the-list-of-files-in-a-directory-using-c-or-c
@@ -86,7 +88,7 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 	double asteroidIncrementTimer = 10.0;
 
 	/*
-	Credits to Brandon Foltz for their implementation of delta time, and Patrick le Duc of 
+	Credits to Brandon Foltz for their implementation of delta time, and "Patrick le Duc" of 
 	stackexchange/stackoverflow for their version of it using SDL_GetPerformanceCounter().
 	November 2020,
 	https://carlopsite.files.wordpress.com/2017/08/the_game_loop_and_frame_rate_management.pdf
@@ -97,9 +99,9 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 	Uint64 frameTimeEnd = 0;  // Time at the end of a frame.
 	double frameDeltaTime = 0;  // Time since start of frame.
 	double deltaTimeSeconds = 0;
-	double totalTimeSeconds = 0;
 	// ALL game actions where applicible should be scaled by deltaTimeSeconds to ensure they're being executed at the 
 	// same speed regardless of framerate.
+	double totalTimeSeconds = 0;
 
 	int targetFramerate = 300;
 	int targetMsPerFrame = 1000 / targetFramerate;
@@ -122,6 +124,7 @@ void GameManager::Run(InputManager const* inputManager, Renderer* renderer) {
 			if (totalTimeSeconds > 2) {
 				asteroidIncrementTimer -= deltaTimeSeconds;
 
+				// Handle spawning asteroids, cleanup, moving them, and checking collisions...
 				for (int n = 0; n < _objects.size(); n++) {
 					auto i = _objects[n];
 					if (i->GetVelocityX() != 0 || i->GetVelocityY() != 0) {

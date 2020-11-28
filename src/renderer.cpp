@@ -65,10 +65,6 @@ void Renderer::Render(Player *p, std::vector<std::shared_ptr<GameObject>>* objec
 
 
 	for (int i = 0; i < objects->size(); i++) {
-		if (objects->at(i) == nullptr) {
-			std::cout << "Object in _objects was nullptr!\n";
-			continue;
-		}
 		int tW = objects->at(i)->GetTextureDimensions()._x;
 		int tH = objects->at(i)->GetTextureDimensions()._y;
 		SDL_Rect renderQuad = { (int)objects->at(i)->GetX(), (int)objects->at(i)->GetY(), tW, tH };
