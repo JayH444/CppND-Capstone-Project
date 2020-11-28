@@ -31,7 +31,7 @@ WIP
 
 ## Credits
 
-The namesake and sprites used for the game come from the freeware game [Tyrian](https://www.gog.com/game/tyrian_2000). 
+The partial namesake and sprites used for the game come from the freeware game [Tyrian](https://www.gog.com/game/tyrian_2000). 
 
 [The author of the game's assets](https://lostgarden.home.blog/2007/04/05/free-game-graphics-tyrian-ships-and-tiles/) has provided them available
 for free for use in any derivative works (games, prototypes, animations, etc).
