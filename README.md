@@ -98,6 +98,6 @@ Additional credits to the following people for their explanations and code examp
 4. In `./src/util.h`, replace `namespace FS = std::experimental::filesystem;` on line 20 with `namespace FS = std::filesystem;`
 5. Verify that the required environment variables have been set. (Further instructions [here](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/windows/msvc2019/index.php)).
 6. Verify that the directory `C:/SDL2-2.0.12` exists, or that the location of the SDL2 install is set correctly for the project (Further instructions [here](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/windows/msvc2019/index.php)).
-6. Compile it.
-7. Run it: `./x64/Release/CppND-Capstone-Project.exe` or `./x64/Debug/CppND-Capstone-Project.exe` (depending on the compile configuration chosen).
+7. Compile it.
+8. Run it: `./x64/Release/CppND-Capstone-Project.exe` or `./x64/Debug/CppND-Capstone-Project.exe` (depending on the compile configuration chosen).
 
