@@ -6,8 +6,7 @@ Created from the [Snake game starter repo](https://github.com/udacity/CppND-Caps
 This is the repository of my capstone project for it.
 
 This project is a simple endless arcade game. The player controls a spacecraft and must dodge a continuous volley of incoming asteroids.
-The player scores by surviving for as long as possible. Higher scores mean a longer survival time. The game's difficulty increases as the
-player survives longer by slowly incrementing the number of asteroids that will appear.
+The player scores by surviving for as long as possible. Higher scores mean a longer survival time. The game's difficulty increases the longer the player survives by slowly incrementing the number of asteroids that will appear.
 
 ## How to Play
 
@@ -53,6 +52,7 @@ Additional credits to the following people for their explanations and code examp
 * SDL2 >= 2.0
   * All installation instructions can be found [here](https://wiki.libsdl.org/Installation)
   * Note that for Linux, an `apt` or `apt-get` installation is preferred to building from source.
+  * For Windows, information for how to compile for SDL2 in Visual Studio 2019 can be found [here](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/windows/msvc2019/index.php)
 * gcc/g++ >= 5.4
   * Linux: gcc / g++ is installed by default on most Linux distros
   * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
@@ -70,5 +70,5 @@ Additional credits to the following people for their explanations and code examp
 
 1. Clone this repo.
 2. Open the .sln file with Visual Studio 2019 (Not tested with earlier versions.)
-3. Compile through the solution explorer.
+3. Compile it.
 4. Run it: `./x64/Release/CppND-Capstone-Project.exe` or `./x64/Debug/CppND-Capstone-Project.exe` (depending on the compile configuration chosen).
