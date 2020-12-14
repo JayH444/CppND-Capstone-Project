@@ -10,8 +10,8 @@ The player scores by surviving for as long as possible. Higher scores mean a lon
 
 - W: Move up
 - A: Move left
-- S: Move right
-- D: Move down
+- S: Move down
+- D: Move right
 
 ## Project Structure
 
